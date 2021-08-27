@@ -4,11 +4,11 @@
     <title>Mudi</title>
 </head>
 <body>
-<div th:replace="~{base :: Logo}"></div>
+<div th:replace="~{base :: logo}"></div>
 <div class="container">
     <div th:replace="~{base :: titulo('Novo pedido')}"></div>
     <div class="card mt-3">
-        <form th:object="${requisicaoNovoPedido}" class="card-body" action="/pedido/novo" method="post">
+        <form th:object="${requisicaoNovoPedido}" class="card-body" th:action="${/pedido/novo}" method="post">
             <div class="form-group">
                 <label for="nomeProduto">Produto</label>
                 <input th:field="*{nomeProduto}" th:errorclass="is-invalid" class="form-control"

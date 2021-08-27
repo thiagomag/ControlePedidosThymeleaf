@@ -1,8 +1,11 @@
 package br.com.alura.mvc.mudi.controller;
 
 import br.com.alura.mvc.mudi.dto.RequisicaoNovoPedido;
+import br.com.alura.mvc.mudi.model.User;
 import br.com.alura.mvc.mudi.repository.PedidoRepository;
+import br.com.alura.mvc.mudi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +20,7 @@ import javax.validation.Valid;
 public class PedidoController {
 
     private final PedidoRepository pedidoRepository;
+    private final UserRepository userRepository;
 
     private static final String RETORNO_FORMULARIO = "pedido/formulario";
 
@@ -30,7 +34,12 @@ public class PedidoController {
         if(result.hasErrors()) {
             return RETORNO_FORMULARIO;
         }
+
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByUsername(username);
+
         var pedido = requisicao.toPedido();
+        pedido.setUser(user);
         pedidoRepository.save(pedido);
         return "redirect:/home";
     }

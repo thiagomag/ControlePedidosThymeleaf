@@ -1,28 +1,43 @@
 <head th:fragment="head">
-  <meta charset="UTF-8">
-  <title>Mudi</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Handlee&display=swap" rel="stylesheet">
-  <style>
-    .Logo-container {
-      background-color: #47bcff;
-      color: white;
-    }
-    .Logo {
-      font-family: 'Handlee', cursive;
-      font-size: 2.5rem;
-    }
-  </style>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Handlee&display=swap" rel="stylesheet">
+    <style>
+        .logo-container {
+            background-color: #47bcff;
+            color: #FFF;
+        }
+
+        .logo {
+            font-family: 'Handlee', cursive;
+            font-size: 2.5rem;
+        }
+    </style>
 </head>
 
-<div th:fragment="Logo" class="Logo-container mb-3 p-3 d-flex justify-content-between">
-  <span class="Logo">mudi</span>
-  <span class="mt-3">login</span>
+<div th:fragment="logo" class="">
+    <div class="row logo-container mb-3 p-3 d-flex justify-content-between">
+        <span class="logo ml-2">mudi</span>
+        <span class="mt-3">
+		<a class="text-light" sec:authorize="!isAuthenticated()" href="/login">login</a>
+		<a onclick="document.querySelector('#form-login').submit()" class="text-light" sec:authorize="isAuthenticated()"
+           href="#">logout</a>
+		<form id="form-login" th:action="@{/logout}" method="post"></form>
+	    </span>
+    </div>
+    <div class="row" sec:authorize="isAuthenticated()">
+        <div class="col">
+            <nav class="nav">
+                <a class="nav-link" href="@{/home}">Home</a>
+                <a class="nav-link" href="@{/usuario/pedidos}">Meus Pedidos</a>
+                <a class="nav-link" href="@{/oferta}">Faça sua oferta</a>
+            </nav>
+        </div>
+    </div>
 </div>
 
-<div th:fragment="titulo(valor)" class="jumbotron mb-0">
-  <h1 class="display-4" th:text="${valor}"></h1>
+<div th:fragment="titulo(valor)" class="jumbotron mb-2 mt-2">
+    <h1 class="display-4" th:text="${valor}"></h1>
 </div>
+
